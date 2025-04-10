@@ -1,256 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call Sign Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Call Sign Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
 
-        h1 {
-            margin-bottom: 2rem;
-            font-weight: 700;
-            color: #4a90e2;
-        }
+    h1 {
+      font-size: 2rem;
+      color: #4a90e2;
+      margin-bottom: 1.5rem;
+    }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
+    .call-sign-section {
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
+    .call-sign-section h2 {
+      color: #4a90e2;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-        }
+    .form-group {
+      text-align: left;
+    }
 
-        button[type="submit"] {
-            width: 100%;
-            padding: 1rem;
-            background: #4a90e2;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: #ddd;
+    }
 
-        button[type="submit"]:hover {
-            background: #357abd;
-            transform: translateY(-2px);
-        }
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
 
-        .loading {
-            display: none;
-            margin-top: 1rem;
-            font-size: 1.2rem;
-            color: #4a90e2;
-            font-weight: 500;
-        }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
 
-        /* Styles for the call sign display section */
-        .call-sign-section {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    button[type="submit"] {
+      background: #4a90e2;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
 
-        .call-sign-section h2 {
-            color: #4a90e2;
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
+    button[type="submit"]:hover {
+      background: #357abd;
+      transform: translateY(-1px);
+    }
 
-        .call-sign-display {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-        }
+    .loading {
+      display: none;
+      margin-top: 1rem;
+      font-weight: 500;
+      color: #4a90e2;
+    }
 
-        .call-sign-officer { color: #3498db; }
-        .call-sign-sergeant { color: #2ecc71; }
-        .call-sign-lieutenant { color: #f39c12; }
-        .call-sign-captain { color: #e74c3c; }
+    .call-sign-display {
+      display: none;
+      margin-top: 2rem;
+      padding: 1.2rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+    }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-        }
+    .call-sign-officer { color: #3498db; }
+    .call-sign-sergeant { color: #2ecc71; }
+    .call-sign-lieutenant { color: #f39c12; }
+    .call-sign-captain { color: #e74c3c; }
 
-    </style>
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Call Sign Generator</h1>
+  <div class="container">
+    <h1>Call Sign Generator</h1>
 
-        <div class="call-sign-section">
-            <h2>Generate Your Call Sign:</h2>
-            <p>Fill in your details and select a role to generate your unique call sign.</p>
-        </div>
-
-        <form id="callSignForm">
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" required>
-            </div>
-
-            <div class="form-group">
-                <label for="discordUser">Discord Username</label>
-                <input type="text" id="discordUser" name="discordUser" required>
-            </div>
-
-            <div class="form-group">
-                <label for="role">Preferred Role</label>
-                <select id="role" name="role" required>
-                    <option value="">Select Role</option>
-                    <option value="Cadet">Cadet</option>
-                    <option value="Officer">Officer</option>
-                    <option value="Sergeant">Sergeant</option>
-                    <option value="Lieutenant">Lieutenant</option>
-                    <option value="Captain">Captain</option>
-                </select>
-            </div>
-
-            <button type="submit">Generate Call Sign</button>
-            <div class="loading">Generating call sign...</div>
-        </form>
-
-        <!-- Call Sign Display Section -->
-        <div id="callSignDisplay" class="call-sign-display" style="display:none;">
-            <!-- Generated call sign will be displayed here -->
-        </div>
+    <div class="call-sign-section">
+      <h2>Generate Your Call Sign</h2>
+      <p>Fill in your details and select a role to generate your unique call sign.</p>
     </div>
 
-    <script>
-        const form = document.getElementById('callSignForm');
-        const loading = document.querySelector('.loading');
-        const callSignDisplay = document.getElementById('callSignDisplay');
+    <form id="callSignForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" required />
+      </div>
 
-        // Replace with your Discord webhook URL
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1359771528245542932/jlxJVJo489eTO2Pq4SgXZGZfYbcg1OC0I9RPlfkfFLQHWhwTUqKJhbRcbCakO2jDn9yH';
+      <div class="form-group">
+        <label for="discordUser">Discord Username</label>
+        <input type="text" id="discordUser" name="discordUser" required />
+      </div>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(form);
-            const callSignData = {
-                fullName: formData.get('fullName'),
-                discordUser: formData.get('discordUser'),
-                role: formData.get('role'),
-                callSign: generateCallSign(formData.get('role'))
-            };
+      <div class="form-group">
+        <label for="role">Preferred Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select Role</option>
+          <option value="Cadet">Cadet</option>
+          <option value="Officer">Officer</option>
+          <option value="Sergeant">Sergeant</option>
+          <option value="Lieutenant">Lieutenant</option>
+          <option value="Captain">Captain</option>
+        </select>
+      </div>
 
-            loading.style.display = 'block';
-            callSignDisplay.style.display = 'none';
+      <button type="submit">Generate Call Sign</button>
+      <div class="loading">Generating call sign...</div>
+    </form>
 
-            try {
-                await sendToDiscord(callSignData);
-                callSignDisplay.style.display = 'block';
-                callSignDisplay.textContent = `Generated Call Sign: ${callSignData.callSign}`;
-                callSignDisplay.className = 'call-sign-display call-sign-' + callSignData.role.toLowerCase();
-                alert('Call sign generated successfully!');
-                form.reset();
-            } catch (error) {
-                alert('Error generating call sign. Please try again.');
-                console.error(error);
-            } finally {
-                loading.style.display = 'none';
-            }
-        });
+    <div id="callSignDisplay" class="call-sign-display"></div>
+  </div>
 
-        function generateCallSign(role) {
-            const roles = {
-                'Officer': 'Officer-' + Math.floor(Math.random() * 9999),
-                'Sergeant': 'Sergeant-' + Math.floor(Math.random() * 9999),
-                'Lieutenant': 'Lieutenant-' + Math.floor(Math.random() * 9999),
-                'Captain': 'Captain-' + Math.floor(Math.random() * 9999),
-            };
-            return roles[role] || 'Unknown';
-        }
+  <script>
+    const form = document.getElementById('callSignForm');
+    const loading = document.querySelector('.loading');
+    const callSignDisplay = document.getElementById('callSignDisplay');
 
-        async function sendToDiscord(data) {
-            const embed = {
-                title: `New Call Sign Generated`,
-                color: 0x3498db,
-                fields: [
-                    { name: 'Full Name', value: data.fullName },
-                    { name: 'Discord Username', value: data.discordUser },
-                    { name: 'Role', value: data.role },
-                    { name: 'Generated Call Sign', value: data.callSign }
-                ],
-                timestamp: new Date().toISOString()
-            };
+    const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1359771528245542932/jlxJVJo489eTO2Pq4SgXZGZfYbcg1OC0I9RPlfkfFLQHWhwTUqKJhbRcbCakO2jDn9yH';
 
-            const payload = {
-                content: `@here New Call Sign Generated`,
-                embeds: [embed]
-            };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-            const response = await fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
+      const formData = new FormData(form);
+      const callSignData = {
+        fullName: formData.get('fullName'),
+        discordUser: formData.get('discordUser'),
+        role: formData.get('role'),
+        callSign: generateCallSign(formData.get('role'))
+      };
 
-            if (!response.ok) {
-                throw new Error('Failed to send to Discord');
-            }
-        }
-    </script>
+      loading.style.display = 'block';
+      callSignDisplay.style.display = 'none';
+
+      try {
+        await sendToDiscord(callSignData);
+        callSignDisplay.style.display = 'block';
+        callSignDisplay.textContent = `Generated Call Sign: ${callSignData.callSign}`;
+        callSignDisplay.className = 'call-sign-display call-sign-' + callSignData.role.toLowerCase();
+        alert('Call sign generated successfully!');
+        form.reset();
+      } catch (error) {
+        alert('Error generating call sign. Please try again.');
+        console.error(error);
+      } finally {
+        loading.style.display = 'none';
+      }
+    });
+
+    function generateCallSign(role) {
+      const roles = {
+        'Cadet': 'Cadet-' + Math.floor(Math.random() * 9999),
+        'Officer': 'Officer-' + Math.floor(Math.random() * 9999),
+        'Sergeant': 'Sergeant-' + Math.floor(Math.random() * 9999),
+        'Lieutenant': 'Lieutenant-' + Math.floor(Math.random() * 9999),
+        'Captain': 'Captain-' + Math.floor(Math.random() * 9999),
+      };
+      return roles[role] || 'Unknown';
+    }
+
+    async function sendToDiscord(data) {
+      const embed = {
+        title: `New Call Sign Generated`,
+        color: 0x3498db,
+        fields: [
+          { name: 'Full Name', value: data.fullName },
+          { name: 'Discord Username', value: data.discordUser },
+          { name: 'Role', value: data.role },
+          { name: 'Generated Call Sign', value: data.callSign }
+        ],
+        timestamp: new Date().toISOString()
+      };
+
+      const payload = {
+        content: `@here New Call Sign Generated`,
+        embeds: [embed]
+      };
+
+      const response = await fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send to Discord');
+      }
+    }
+  </script>
 </body>
 </html>
