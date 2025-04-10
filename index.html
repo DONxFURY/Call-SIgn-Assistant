@@ -18,20 +18,23 @@
             color: #fff;
             min-height: 100vh;
             padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             margin-bottom: 2rem;
             font-weight: 700;
             color: #4a90e2;
@@ -39,6 +42,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
         label {
@@ -83,17 +87,13 @@
 
         .loading {
             display: none;
-            text-align: center;
             margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #4a90e2;
+            font-weight: 500;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-        }
-
-        /* Add call sign section styles */
+        /* Styles for the call sign display section */
         .call-sign-section {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 12px;
@@ -108,48 +108,39 @@
             font-size: 1.25rem;
         }
 
-        .call-sign-section ul {
-            list-style-type: none;
-            padding-left: 1rem;
+        .call-sign-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
         }
 
-        .call-sign-section li {
-            margin-bottom: 0.75rem;
-            position: relative;
-            padding-left: 1.5rem;
+        .call-sign-officer { color: #3498db; }
+        .call-sign-sergeant { color: #2ecc71; }
+        .call-sign-lieutenant { color: #f39c12; }
+        .call-sign-captain { color: #e74c3c; }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
         }
 
-        .call-sign-section li:before {
-            content: "•";
-            color: #4a90e2;
-            position: absolute;
-            left: 0;
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-
-        .note {
-            font-size: 0.9rem;
-            color: #a0a0a0;
-            margin-top: 1rem;
-            font-style: italic;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Call Sign Generator</h1>
-        
-        <!-- Add call sign section -->
+
         <div class="call-sign-section">
             <h2>Generate Your Call Sign:</h2>
-            <ul>
-                <li>Provide your full name and Discord username to generate your call sign.</li>
-                <li>Choose a role that fits your preferred call sign style.</li>
-            </ul>
-            <p class="note">Note: Your generated call sign will be submitted to our team for review.</p>
+            <p>Fill in your details and select a role to generate your unique call sign.</p>
         </div>
-        
+
         <form id="callSignForm">
             <div class="form-group">
                 <label for="fullName">Full Name</label>
@@ -175,13 +166,19 @@
             <button type="submit">Generate Call Sign</button>
             <div class="loading">Generating call sign...</div>
         </form>
+
+        <!-- Call Sign Display Section -->
+        <div id="callSignDisplay" class="call-sign-display" style="display:none;">
+            <!-- Generated call sign will be displayed here -->
+        </div>
     </div>
 
     <script>
         const form = document.getElementById('callSignForm');
         const loading = document.querySelector('.loading');
+        const callSignDisplay = document.getElementById('callSignDisplay');
 
-        // Replace this with your Discord webhook URL
+        // Replace with your Discord webhook URL
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1359771528245542932/jlxJVJo489eTO2Pq4SgXZGZfYbcg1OC0I9RPlfkfFLQHWhwTUqKJhbRcbCakO2jDn9yH';
 
         form.addEventListener('submit', async (e) => {
@@ -196,9 +193,13 @@
             };
 
             loading.style.display = 'block';
-            
+            callSignDisplay.style.display = 'none';
+
             try {
                 await sendToDiscord(callSignData);
+                callSignDisplay.style.display = 'block';
+                callSignDisplay.textContent = `Generated Call Sign: ${callSignData.callSign}`;
+                callSignDisplay.className = 'call-sign-display call-sign-' + callSignData.role.toLowerCase();
                 alert('Call sign generated successfully!');
                 form.reset();
             } catch (error) {
@@ -211,10 +212,10 @@
 
         function generateCallSign(role) {
             const roles = {
-                'Officer': 'O' + Math.floor(Math.random() * 9999),
-                'Sergeant': 'S' + Math.floor(Math.random() * 9999),
-                'Lieutenant': 'L' + Math.floor(Math.random() * 9999),
-                'Captain': 'C' + Math.floor(Math.random() * 9999),
+                'Officer': 'Officer-' + Math.floor(Math.random() * 9999),
+                'Sergeant': 'Sergeant-' + Math.floor(Math.random() * 9999),
+                'Lieutenant': 'Lieutenant-' + Math.floor(Math.random() * 9999),
+                'Captain': 'Captain-' + Math.floor(Math.random() * 9999),
             };
             return roles[role] || 'Unknown';
         }
